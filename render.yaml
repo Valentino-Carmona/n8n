@@ -18,7 +18,7 @@ services:
       # Completar con tu URL de Render tras el primer deploy:
       # ej: https://n8n-service.onrender.com
       - key: WEBHOOK_URL
-        sync: https://n8n-service-j9an.onrender.com
+        sync: false
 
       # -- Base de datos: Neon (schema n8n)
       - key: DB_TYPE
