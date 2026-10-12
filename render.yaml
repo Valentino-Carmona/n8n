@@ -9,7 +9,6 @@ services:
       # -- Encriptacion de credenciales
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
-
       # -- Red y dominio publico
       - key: N8N_PORT
         value: 5678
@@ -19,7 +18,6 @@ services:
       # ej: https://n8n-service.onrender.com
       - key: WEBHOOK_URL
         sync: false
-
       # -- Base de datos: Neon (schema n8n)
       - key: DB_TYPE
         value: postgresdb
@@ -37,13 +35,11 @@ services:
         value: n8n
       - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
         value: false
-
       # -- Limpieza automatica de historial (protege los 512 MB de Neon)
       - key: EXECUTIONS_DATA_PRUNE
         value: true
       - key: EXECUTIONS_DATA_MAX_AGE
         value: 168
-
       # -- Zona horaria y estabilidad en free tier
       - key: GENERIC_TIMEZONE
         value: America/Argentina/Buenos_Aires
@@ -60,7 +56,6 @@ services:
       # -- Encriptacion de credenciales
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
-
       # -- Red y dominio publico
       - key: N8N_PORT
         value: 5678
@@ -70,7 +65,6 @@ services:
       # ej: https://n8n-service.onrender.com
       - key: WEBHOOK_URL
         sync: false
-
       # -- Base de datos: Neon (schema n8n)
       - key: DB_TYPE
         value: postgresdb
@@ -88,13 +82,11 @@ services:
         value: n8n
       - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
         value: false
-
       # -- Limpieza automatica de historial (protege los 512 MB de Neon)
       - key: EXECUTIONS_DATA_PRUNE
         value: true
       - key: EXECUTIONS_DATA_MAX_AGE
         value: 168
-
       # -- Zona horaria y estabilidad en free tier
       - key: GENERIC_TIMEZONE
         value: America/Argentina/Buenos_Aires
