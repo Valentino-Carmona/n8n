@@ -48,4 +48,4 @@ services:
       - key: GENERIC_TIMEZONE
         value: America/Argentina/Buenos_Aires
       - key: NODE_OPTIONS
-        value: --max-old-space-size=200
+        value: --max-old-space-size=400
