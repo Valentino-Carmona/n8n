@@ -9,6 +9,7 @@ services:
       # -- Encriptacion de credenciales
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
+
       # -- Red y dominio publico
       - key: N8N_PORT
         value: 5678
@@ -18,6 +19,7 @@ services:
       # ej: https://n8n-service.onrender.com
       - key: WEBHOOK_URL
         sync: false
+
       # -- Base de datos: Neon (schema n8n)
       - key: DB_TYPE
         value: postgresdb
@@ -35,58 +37,13 @@ services:
         value: n8n
       - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
         value: false
+
       # -- Limpieza automatica de historial (protege los 512 MB de Neon)
       - key: EXECUTIONS_DATA_PRUNE
         value: true
       - key: EXECUTIONS_DATA_MAX_AGE
         value: 168
-      # -- Zona horaria y estabilidad en free tier
-      - key: GENERIC_TIMEZONE
-        value: America/Argentina/Buenos_Aires
-      - key: NODE_OPTIONS
-        value: --max-old-space-size=200
-services:
-  - type: web
-    plan: free
-    runtime: image
-    name: n8n-service
-    image:
-      url: docker.io/n8nio/n8n:latest
-    envVars:
-      # -- Encriptacion de credenciales
-      - key: N8N_ENCRYPTION_KEY
-        generateValue: true
-      # -- Red y dominio publico
-      - key: N8N_PORT
-        value: 5678
-      - key: N8N_PROTOCOL
-        value: https
-      # Completar con tu URL de Render tras el primer deploy:
-      # ej: https://n8n-service.onrender.com
-      - key: WEBHOOK_URL
-        sync: false
-      # -- Base de datos: Neon (schema n8n)
-      - key: DB_TYPE
-        value: postgresdb
-      - key: DB_POSTGRESDB_HOST
-        value: ep-mute-salad-b6qsqu70.c-2.sa-east-1.aws.neon.tech
-      - key: DB_POSTGRESDB_PORT
-        value: 5432
-      - key: DB_POSTGRESDB_DATABASE
-        value: neondb
-      - key: DB_POSTGRESDB_USER
-        value: neondb_owner
-      - key: DB_POSTGRESDB_PASSWORD
-        value: npg_vX70YsCoTwEI
-      - key: DB_POSTGRESDB_SCHEMA
-        value: n8n
-      - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
-        value: false
-      # -- Limpieza automatica de historial (protege los 512 MB de Neon)
-      - key: EXECUTIONS_DATA_PRUNE
-        value: true
-      - key: EXECUTIONS_DATA_MAX_AGE
-        value: 168
+
       # -- Zona horaria y estabilidad en free tier
       - key: GENERIC_TIMEZONE
         value: America/Argentina/Buenos_Aires
