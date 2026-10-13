@@ -92,4 +92,4 @@ services:
         value: "America/Argentina/Buenos_Aires"
       # optimize-for-size hace que V8 libere memoria antes de crecer
       - key: NODE_OPTIONS
-        value: "--max-old-space-size=384 --optimize-for-size"
+        value: "--max-old-space-size=384"
