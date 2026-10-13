@@ -4,48 +4,92 @@ services:
     runtime: image
     name: n8n-service
     image:
-      url: docker.io/n8nio/n8n:latest
+      url: docker.io/n8nio/n8n:latest   # idealmente fijá un tag concreto
+    healthCheckPath: /healthz
     envVars:
-      # -- Encriptacion de credenciales
+      # -- Encriptación de credenciales
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
 
-      # -- Red y dominio publico
+      # -- Red y dominio público
+      - key: PORT
+        value: "5678"
       - key: N8N_PORT
-        value: 5678
+        value: "5678"
       - key: N8N_PROTOCOL
-        value: https
-      # Completar con tu URL de Render tras el primer deploy:
-      # ej: https://n8n-service.onrender.com
+        value: "https"
+      # Completar tras el primer deploy, ej: https://n8n-service.onrender.com
       - key: WEBHOOK_URL
         sync: false
+      - key: N8N_EDITOR_BASE_URL
+        sync: false   # misma URL que WEBHOOK_URL
 
       # -- Base de datos: Neon (schema n8n)
       - key: DB_TYPE
-        value: postgresdb
+        value: "postgresdb"
       - key: DB_POSTGRESDB_HOST
-        value: ep-mute-salad-b6qsqu70.c-2.sa-east-1.aws.neon.tech
+        value: "ep-mute-salad-b6qsqu70.c-2.sa-east-1.aws.neon.tech"
       - key: DB_POSTGRESDB_PORT
-        value: 5432
+        value: "5432"
       - key: DB_POSTGRESDB_DATABASE
-        value: neondb
+        value: "neondb"
       - key: DB_POSTGRESDB_USER
-        value: neondb_owner
+        value: "neondb_owner"
       - key: DB_POSTGRESDB_PASSWORD
-        value: npg_vX70YsCoTwEI
+        value: "npg_vX70YsCoTwEI"
       - key: DB_POSTGRESDB_SCHEMA
-        value: n8n
+        value: "n8n"
+      - key: DB_POSTGRESDB_SSL_ENABLED
+        value: "true"
       - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
-        value: false
+        value: "false"
+      - key: DB_POSTGRESDB_POOL_SIZE
+        value: "2"
+      - key: DB_POSTGRESDB_CONNECTION_TIMEOUT
+        value: "60000"
 
-      # -- Limpieza automatica de historial (protege los 512 MB de Neon)
+      # -- Ejecuciones: guardar lo mínimo
       - key: EXECUTIONS_DATA_PRUNE
-        value: true
+        value: "true"
       - key: EXECUTIONS_DATA_MAX_AGE
-        value: 168
+        value: "72"
+      - key: EXECUTIONS_DATA_PRUNE_MAX_COUNT
+        value: "200"
+      - key: EXECUTIONS_DATA_SAVE_ON_SUCCESS
+        value: "none"
+      - key: EXECUTIONS_DATA_SAVE_ON_PROGRESS
+        value: "false"
+      - key: EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS
+        value: "false"
+      # Una sola ejecución a la vez: dos corridas de este workflow juntas no entran en 512 MB
+      - key: N8N_CONCURRENCY_PRODUCTION_LIMIT
+        value: "1"
 
-      # -- Zona horaria y estabilidad en free tier
+      # -- Recortar consumo de memoria / ruido
+      - key: N8N_LOG_LEVEL
+        value: "warn"
+      - key: N8N_DIAGNOSTICS_ENABLED
+        value: "false"
+      - key: N8N_VERSION_NOTIFICATIONS_ENABLED
+        value: "false"
+      - key: N8N_TEMPLATES_ENABLED
+        value: "false"
+      - key: N8N_PERSONALIZATION_ENABLED
+        value: "false"
+      - key: N8N_HIRING_BANNER_ENABLED
+        value: "false"
+      - key: N8N_ONBOARDING_FLOW_DISABLED
+        value: "true"
+      - key: N8N_PUBLIC_API_DISABLED
+        value: "true"
+      - key: N8N_COMMUNITY_PACKAGES_ENABLED
+        value: "false"
+
+      # -- Zona horaria y heap
       - key: GENERIC_TIMEZONE
-        value: America/Argentina/Buenos_Aires
+        value: "America/Argentina/Buenos_Aires"
+      - key: TZ
+        value: "America/Argentina/Buenos_Aires"
+      # optimize-for-size hace que V8 libere memoria antes de crecer
       - key: NODE_OPTIONS
-        value: --max-old-space-size=200
+        value: "--max-old-space-size=384 --optimize-for-size"
