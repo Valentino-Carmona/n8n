@@ -4,7 +4,11 @@ services:
     runtime: image
     name: n8n-service
     image:
-      url: docker.io/n8nio/n8n:latest   # idealmente fijá un tag concreto
+      # Versión fijada (estable al 13/10/2026). Evita que un redeploy traiga otra distinta.
+      url: docker.io/n8nio/n8n:2.42.7
+      # PRUEBA de menor consumo (línea 1.x): usar docker.io/n8nio/n8n:1.123.84
+      # ATENCIÓN: no se puede volver de 2.x a 1.x sobre la misma base. Si probás 1.x,
+      # cambiá DB_POSTGRESDB_SCHEMA a uno nuevo (ej: n8n_v1) o vas a tener errores de migración.
     healthCheckPath: /healthz
     envVars:
       # -- Encriptación de credenciales
@@ -61,7 +65,7 @@ services:
         value: "false"
       - key: EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS
         value: "false"
-      # Una sola ejecución a la vez: dos corridas de este workflow juntas no entran en 512 MB
+      # Una sola ejecución a la vez: dos corridas juntas no entran en 512 MB
       - key: N8N_CONCURRENCY_PRODUCTION_LIMIT
         value: "1"
 
@@ -90,6 +94,5 @@ services:
         value: "America/Argentina/Buenos_Aires"
       - key: TZ
         value: "America/Argentina/Buenos_Aires"
-      # optimize-for-size hace que V8 libere memoria antes de crecer
       - key: NODE_OPTIONS
         value: "--max-old-space-size=384"
